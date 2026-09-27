@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGN STORE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="top-bar">
+        <div class="brand">
+            <h1>REGN STORE</h1>
+            <span>متجرك التقني</span>
+        </div>
+
+        <div class="account-area">
+            <div class="balance">💰 الرصيد: <strong id="balance">$500</strong></div>
+            <button id="accountButton">👤 حسابي</button>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="welcome" id="homeSection">
+        <h2>👋 أهلاً بك في REGN STORE</h2>
+        <p>اكتشف أحدث المنتجات التقنية.</p>
+
+        <div class="buttons">
+            <button id="productsButton">🛒 تصفح المنتجات</button>
+            <button id="purchasesButton">📦 المشتريات</button>
+            <button id="cartButton">🛍️ السلة <span id="cartCount">0</span></button>
+            <button id="favoritesButton">❤️ المفضلة</button>
+            <button id="contactButton">📞 اتصل بنا</button>
+        </div>
+    </section>
+
+    <section id="productsSection" class="hidden">
+        <div class="section-header">
+            <button class="back-button" id="productsBack">← رجوع</button>
+            <h2>🛍️ المنتجات</h2>
+        </div>
+
+        <div class="shop-tools">
+            <input id="productSearch" type="search" placeholder="🔎 ابحث عن منتج...">
+            <select id="categoryFilter">
+                <option value="all">كل التصنيفات</option>
+                <option value="phones">📱 هواتف</option>
+                <option value="laptops">💻 لابتوبات</option>
+                <option value="audio">🎧 صوتيات</option>
+                <option value="gaming">🎮 ألعاب</option>
+                <option value="accessories">🔌 إكسسوارات</option>
+            </select>
+            <select id="sortProducts">
+                <option value="default">الترتيب الافتراضي</option>
+                <option value="cheap">الأرخص أولاً</option>
+                <option value="expensive">الأغلى أولاً</option>
+                <option value="rating">الأعلى تقييماً</option>
+                <option value="popular">الأكثر شعبية</option>
+            </select>
+        </div>
+
+        <div id="recommendations" class="recommendations hidden"></div>
+        <div id="productsContainer" class="products"></div>
+    </section>
+
+    <section id="purchasesSection" class="hidden">
+        <div class="section-header">
+            <button class="back-button" id="purchasesBack">← رجوع</button>
+            <h2>📦 مشترياتي</h2>
+        </div>
+        <div id="purchasesList"></div>
+    </section>
+
+    <section id="cartSection" class="hidden">
+        <div class="section-header">
+            <button class="back-button" id="cartBack">← رجوع</button>
+            <h2>🛍️ سلة المشتريات</h2>
+        </div>
+        <div id="cartList"></div>
+        <div id="cartSummary" class="cart-summary hidden">
+            <span>المجموع</span>
+            <strong id="cartTotal">$0</strong>
+            <button id="checkoutCart" class="confirm-button">إتمام الطلب 🛒</button>
+        </div>
+    </section>
+
+    <section id="favoritesSection" class="hidden">
+        <div class="section-header">
+            <button class="back-button" id="favoritesBack">← رجوع</button>
+            <h2>❤️ المفضلة</h2>
+        </div>
+        <div id="favoritesList"></div>
+    </section>
+
+    <section id="accountSection" class="hidden">
+        <div class="section-header">
+            <button class="back-button" id="accountBack">← رجوع</button>
+            <h2>👤 حسابي</h2>
+        </div>
+
+        <div class="account-box">
+            <div class="profile-avatar">👤</div>
+            <input type="text" id="username" placeholder="اسم المستخدم">
+            <input type="email" id="email" placeholder="البريد الإلكتروني">
+            <button id="saveAccount">💾 حفظ معلومات الحساب</button>
+
+            <div class="account-balance">
+                💰 رصيدك الحالي
+                <strong id="accountBalance">$500</strong>
+            </div>
+
+            <button id="chargeButton">💳 شحن الرصيد</button>
+            <div id="chargeOptions" class="charge-options hidden">
+                <button data-charge="50">إضافة $50 تجريبياً</button>
+                <button data-charge="100">إضافة $100 تجريبياً</button>
+                <button data-charge="500">إضافة $500 تجريبياً</button>
+            </div>
+
+            <h3>💳 سجل العمليات</h3>
+            <div id="transactionsList" class="transactions"></div>
+
+            <button id="logoutButton" class="danger-button">تسجيل الخروج</button>
+        </div>
+    </section>
+
+    <section id="contactSection" class="hidden">
+        <div class="section-header">
+            <button class="back-button" id="contactBack">← رجوع</button>
+            <h2>📞 اتصل بنا</h2>
+        </div>
+        <div class="contact-box">
+            <h3>REGN STORE</h3>
+            <p>سيتم إضافة طرق التواصل مع المتجر لاحقاً.</p>
+        </div>
+    </section>
+</main>
+
+<!-- Purchase / checkout modal -->
+<div id="purchaseModal" class="modal hidden">
+    <div class="modal-box purchase-box">
+        <button class="close-modal" id="closePurchase">×</button>
+        <h2>🛒 إتمام الطلب</h2>
+
+        <div id="purchaseProduct"></div>
+
+        <div class="form-group">
+            <label>🇸🇾 المحافظة</label>
+            <select id="governorateSelect">
+                <option value="">اختر المحافظة</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>🔎 بحث عن المدينة / البلدة / القرية</label>
+            <input id="locationSearch" type="search" placeholder="اكتب اسم المكان...">
+        </div>
+
+        <div class="form-group">
+            <label>📍 المنطقة / المدينة / البلدة / القرية</label>
+            <select id="areaSelect" disabled>
+                <option value="">اختر المحافظة أولاً</option>
+            </select>
+            <small id="locationCount" class="muted"></small>
+        </div>
+
+        <div class="delivery-info">
+            <span>⏱️ الوصول المتوقع</span>
+            <strong id="deliveryTime">اختر المحافظة</strong>
+        </div>
+
+        <div class="form-group">
+            <label>💳 طريقة الدفع</label>
+            <select id="paymentSelect">
+                <option value="now">الدفع فوراً من الرصيد</option>
+                <option value="cash">الدفع عند الاستلام</option>
+            </select>
+        </div>
+
+        <div class="coupon-row">
+            <input id="couponInput" type="text" placeholder="🎟️ كود الخصم">
+            <button id="applyCoupon">تطبيق</button>
+        </div>
+        <div id="couponMessage" class="muted"></div>
+
+        <div class="order-summary">
+            <span>المجموع</span>
+            <strong id="orderTotal">$0</strong>
+        </div>
+
+        <button id="confirmPurchase" class="confirm-button">تأكيد الطلب 🛍️</button>
+    </div>
+</div>
+
+<!-- Opinion modal -->
+<div id="opinionModal" class="modal hidden">
+    <div class="modal-box">
+        <button class="close-modal" id="closeOpinion">×</button>
+        <h2>👎 أخبرنا برأيك</h2>
+        <p>لماذا لم يعجبك هذا المنتج؟</p>
+        <textarea id="opinionText" placeholder="اكتب رأيك هنا..."></textarea>
+        <div class="opinion-buttons">
+            <button id="sendOpinion" class="confirm-button">إرسال</button>
+            <button id="cancelOpinion" class="cancel-button">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<!-- Rating modal -->
+<div id="ratingModal" class="modal hidden">
+    <div class="modal-box">
+        <button class="close-modal" id="closeRating">×</button>
+        <h2>⭐ قيّم المنتج</h2>
+        <div id="ratingProductName" class="rating-product-name"></div>
+        <div id="ratingStars" class="rating-stars">
+            <button data-rating="1">★</button>
+            <button data-rating="2">★</button>
+            <button data-rating="3">★</button>
+            <button data-rating="4">★</button>
+            <button data-rating="5">★</button>
+        </div>
+        <textarea id="ratingText" placeholder="اكتب تعليقك (اختياري)..."></textarea>
+        <button id="submitRating" class="confirm-button">حفظ التقييم</button>
+    </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
